@@ -1,2 +1,7 @@
 # Against-the-Odds
-Application that helps users make better informed sports betting decisions based on historical data
+
+Developed by Zeshan Basaran, Benis Munezero, Sujay Vuchula, Elliot Kolberg, Kyle Mattox
+
+A platform designed to assist users in making smarter sports betting decisions by leveraging historical data analysis and advanced machine learning/AI models.
+
+
