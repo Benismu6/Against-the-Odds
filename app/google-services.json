@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "473899429801",
+    "firebase_url": "https://against-the-odds-eb778-default-rtdb.firebaseio.com",
+    "project_id": "against-the-odds-eb778",
+    "storage_bucket": "against-the-odds-eb778.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473899429801:android:d1748b4853a161bc1b5eb8",
+        "android_client_info": {
+          "package_name": "edu.towson.cosc435.basaran.againsttheodds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVpk7zoHGztR8p2iLynyBVIkX4TUF_gM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,8 +6,11 @@
  * Betting Calculator, and Settings.
  *
  * Responsibilities:
+ * - Initializes the main user interface and navigation
+ * - Connects to Firebase for potential data retrieval and storage
  *
  * Key Methods:
+ * - onCreate: Sets up the content and initializes Firebase
  */
 
 package edu.towson.cosc435.basaran.againsttheodds
@@ -22,16 +25,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import edu.towson.cosc435.basaran.againsttheodds.models.TeamViewModel
 import edu.towson.cosc435.basaran.againsttheodds.ui.theme.AgainstTheOddsTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var viewModel: TeamViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AgainstTheOddsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    // You may call your composables here
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
@@ -39,6 +48,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        // Initialize ViewModel
+        viewModel = ViewModelProvider(this).get(TeamViewModel::class.java)
+
+        // Observe the list of team names and print them
+        viewModel.teamList.observe(this, Observer { teams ->
+            teams.forEach { team ->
+                println("Team name: ${team.strTeam}")
+            }
+        })
+
+        // Start the data fetch and upload process
+        viewModel.fetchAndUploadData()
     }
 }
 
@@ -50,10 +72,3 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AgainstTheOddsTheme {
-        Greeting("Android")
-    }
-}

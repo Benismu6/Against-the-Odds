@@ -1,14 +1,30 @@
-[versions]
-agp = "8.5.2"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.6"
-activityCompose = "1.9.2"
-composeBom = "2024.04.01"
+# versions.toml
 
+# This TOML file serves as a version catalog for managing dependency versions
+# used within the Android application. It centralizes version management,
+# allowing easy updates and consistency across the project.
+
+# [versions]
+# Specifies the versions of various libraries and plugins used in the project.
+[versions]
+agp = "8.5.2"                          # Android Gradle Plugin version
+kotlin = "1.9.0"                        # Kotlin version
+coreKtx = "1.13.1"                      # Android KTX library version
+junit = "4.13.2"                        # JUnit testing framework version
+junitVersion = "1.2.1"                  # AndroidX JUnit library version
+espressoCore = "3.6.1"                  # Espresso UI testing framework version
+lifecycleRuntimeKtx = "2.8.6"           # AndroidX Lifecycle Runtime KTX version
+activityCompose = "1.9.2"               # Activity Compose library version
+composeBom = "2024.04.01"                # Jetpack Compose BOM version
+roomCommon = "2.6.1"                    # Room Persistence Library version
+googleGmsGoogleServices = "4.4.2"       # Google Services plugin version
+firebaseDatabase = "21.0.0"             # Firebase Realtime Database SDK version
+navigationCompose = "2.8.3"             # Jetpack Compose Navigation library version
+navigationRuntimeKtx = "2.8.3"          # Navigation Runtime KTX library version
+okhttp = "4.10.0"                       # OkHttp library version
+
+# [libraries]
+# Defines the libraries used in the project, linking them to their versions.
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,8 +40,15 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
+# [plugins]
+# Lists the Gradle plugins used in the project along with their version references.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
