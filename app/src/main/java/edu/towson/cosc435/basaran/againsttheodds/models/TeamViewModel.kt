@@ -23,7 +23,8 @@ package edu.towson.cosc435.basaran.againsttheodds.models
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import edu.towson.cosc435.basaran.againsttheodds.DataRepository
+import edu.towson.cosc435.basaran.againsttheodds.data.Team
+import edu.towson.cosc435.basaran.againsttheodds.repository.TeamRepository
 
 class TeamViewModel : ViewModel() {
 
@@ -31,7 +32,7 @@ class TeamViewModel : ViewModel() {
     val teamList: LiveData<List<Team>> get() = _teamList
 
     fun fetchAndUploadData() {
-        DataRepository.fetchAndUploadData { teams ->
+        TeamRepository.fetchAndUploadData { teams ->
             _teamList.postValue(teams)
         }
     }
