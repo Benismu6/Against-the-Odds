@@ -23,17 +23,17 @@
  * Uploads the list of Team objects to Firebase Realtime Database under the
  * "teams" node. Each team's data is stored using its idTeam as the key.
  */
-package edu.towson.cosc435.basaran.againsttheodds
+package edu.towson.cosc435.basaran.againsttheodds.repository
 
 import android.util.Log
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import edu.towson.cosc435.basaran.againsttheodds.models.Team
+import edu.towson.cosc435.basaran.againsttheodds.data.Team
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
-object DataRepository {
+object TeamRepository {
 
     private const val API_URL = "https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=NFL"
 

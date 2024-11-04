@@ -20,7 +20,7 @@
  * @property intFormedYear Year the team was established (optional).
  * @property strCountry Country where the team is based (optional).
  */
-package edu.towson.cosc435.basaran.againsttheodds.models
+package edu.towson.cosc435.basaran.againsttheodds.data
 
 data class Team(
     val idTeam: String = "",
