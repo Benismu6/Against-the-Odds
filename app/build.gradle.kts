@@ -100,6 +100,14 @@ dependencies {
     // Networking library
     implementation(libs.okhttp)                                 // OkHttp library for HTTP requests
 
+    implementation("androidx.cardview:cardview:1.0.0") // For CardView
+    implementation("com.google.android.material:material:1.9.0") // For Material components
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation(libs.androidx.runtime.livedata)
+
     // Testing libraries
     testImplementation(libs.junit)                              // JUnit for unit testing
     androidTestImplementation(libs.androidx.junit)             // AndroidX JUnit for Android tests
