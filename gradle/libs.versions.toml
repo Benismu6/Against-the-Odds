@@ -21,7 +21,8 @@ googleGmsGoogleServices = "4.4.2"       # Google Services plugin version
 firebaseDatabase = "21.0.0"             # Firebase Realtime Database SDK version
 navigationCompose = "2.8.3"             # Jetpack Compose Navigation library version
 navigationRuntimeKtx = "2.8.3"          # Navigation Runtime KTX library version
-okhttp = "4.10.0"                       # OkHttp library version
+okhttp = "4.10.0"
+runtimeLivedata = "1.7.5"                       # OkHttp library version
 
 # [libraries]
 # Defines the libraries used in the project, linking them to their versions.
@@ -45,6 +46,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 
 # [plugins]
 # Lists the Gradle plugins used in the project along with their version references.
