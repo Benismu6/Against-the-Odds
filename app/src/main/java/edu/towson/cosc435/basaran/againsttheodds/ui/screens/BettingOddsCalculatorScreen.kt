@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,25 +23,35 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import edu.towson.cosc435.basaran.againsttheodds.ui.calculator.BettingOddsViewModel
 import edu.towson.cosc435.basaran.againsttheodds.ui.components.NavigationBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BettingOddsCalculatorScreen(navController: NavController) {
+fun BettingOddsCalculatorScreen(
+    navController: NavController,
+    viewModel: BettingOddsViewModel = viewModel()
+) {
+    // UI states
     var selectedTeam1 by remember { mutableStateOf("") }
     var selectedTeam2 by remember { mutableStateOf("") }
-    var dateOfMatch by remember { mutableStateOf("") }
-    var overValue by remember { mutableStateOf<Double?>(null) }
-    var underValue by remember { mutableStateOf<Double?>(null) }
-    var confidenceLevel by remember { mutableStateOf<Double?>(null) }
+    var year by remember { mutableStateOf("") }
     var isOverSelected by remember { mutableStateOf(false) }
     var isUnderSelected by remember { mutableStateOf(false) }
+    var amount by remember { mutableStateOf("") }
+
+    // Observing ViewModel states
+    val confidenceLevel by viewModel.confidence.observeAsState(null)
+    val isLoading by viewModel.isLoading.observeAsState(false)
+    val errorMessage by viewModel.errorMessage.observeAsState(null)
 
     Scaffold(
         topBar = {
@@ -47,7 +59,7 @@ fun BettingOddsCalculatorScreen(navController: NavController) {
                 title = { Text("Betting Odds Calculator") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -58,7 +70,8 @@ fun BettingOddsCalculatorScreen(navController: NavController) {
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(16.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Row 1: Select Team 1
             Row(
@@ -92,18 +105,18 @@ fun BettingOddsCalculatorScreen(navController: NavController) {
                 )
             }
 
-            // Row 3: Date of Match
+            // Row 3: Enter Year
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Date of Match:")
+                Text("Year of Match:")
                 TextField(
-                    value = dateOfMatch,
-                    onValueChange = { dateOfMatch = it },
-                    placeholder = { Text("MM/DD/YYYY") },
+                    value = year,
+                    onValueChange = { year = it },
+                    placeholder = { Text("YYYY") },
                     modifier = Modifier.width(150.dp)
                 )
             }
@@ -123,14 +136,6 @@ fun BettingOddsCalculatorScreen(navController: NavController) {
                         if (it) isUnderSelected = false // Uncheck "Under" if "Over" is selected
                     }
                 )
-                if (isOverSelected) {
-                    TextField(
-                        value = overValue?.toString() ?: "",
-                        onValueChange = { overValue = it.toDoubleOrNull() },
-                        placeholder = { Text("Enter value") },
-                        modifier = Modifier.width(150.dp)
-                    )
-                }
             }
 
             // Row 5: Under option
@@ -148,35 +153,57 @@ fun BettingOddsCalculatorScreen(navController: NavController) {
                         if (it) isOverSelected = false // Uncheck "Over" if "Under" is selected
                     }
                 )
-                if (isUnderSelected) {
-                    TextField(
-                        value = underValue?.toString() ?: "",
-                        onValueChange = { underValue = it.toDoubleOrNull() },
-                        placeholder = { Text("Enter value") },
-                        modifier = Modifier.width(150.dp)
-                    )
-                }
+            }
+
+            // Row 6: Amount
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Amount Over/Under:")
+                TextField(
+                    value = amount,
+                    onValueChange = { amount = it },
+                    placeholder = { Text("Amount") },
+                    modifier = Modifier.width(150.dp)
+                )
             }
 
             // Calculate button
             Button(
                 onClick = {
-                    // Placeholder logic for confidence calculation
-                    confidenceLevel = (overValue ?: 0.0 + underValue!! ?: 0.0) / 2 // Simple example
+                    if (year.isNotBlank() && amount.isNotBlank()) {
+                        viewModel.calculateConfidence(
+                            team1 = selectedTeam1,
+                            team2 = selectedTeam2,
+                            year = year.toInt(),
+                            overOrUnder = if (isOverSelected) "over" else "under",
+                            amount = amount.toDouble()
+                        )
+                    }
                 },
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth()
+                enabled = !isLoading,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Calculate")
+                Text("Calculate Confidence")
             }
 
-            // Display confidence level
+            // Progress Indicator
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+            }
+
+            // Confidence Level or Error Message
             confidenceLevel?.let {
                 Text(
                     text = "Confidence Level: ${"%.2f".format(it)}%",
                     modifier = Modifier.padding(top = 16.dp)
                 )
+            }
+            errorMessage?.let {
+                Text(text = it, color = androidx.compose.material3.MaterialTheme.colorScheme.error)
             }
         }
     }

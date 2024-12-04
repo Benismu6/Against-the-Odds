@@ -1,4 +1,4 @@
-package edu.towson.cosc435.basaran.againsttheodds
+package edu.towson.cosc435.basaran.againsttheodds.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

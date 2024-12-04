@@ -12,21 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import edu.towson.cosc435.basaran.againsttheodds.models.AthleteViewModel
-import edu.towson.cosc435.basaran.againsttheodds.models.ScheduleViewModel
 import edu.towson.cosc435.basaran.againsttheodds.models.TeamViewModel
-import edu.towson.cosc435.basaran.againsttheodds.ui.navigation.AppNavigation
+import edu.towson.cosc435.basaran.againsttheodds.models.StatisticsViewModel
 import edu.towson.cosc435.basaran.againsttheodds.ui.theme.AgainstTheOddsTheme
 
 class MainActivity : ComponentActivity() {
-
+    private val statisticsViewModel: StatisticsViewModel by viewModels()
     private val teamViewModel: TeamViewModel by viewModels()
-    private val athleteViewModel: AthleteViewModel by viewModels()
-    private val scheduleViewModel: ScheduleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        statisticsViewModel.startService()
         setContent {
             AgainstTheOddsTheme {
                 val navController = rememberNavController()
@@ -50,38 +47,11 @@ class MainActivity : ComponentActivity() {
                 Log.d("MainActivity", "No team data received.")
             }
         }
-
-        // Observe AthleteViewModel
-        athleteViewModel.athleteList.observe(this) { athletes ->
-            if (athletes.isNotEmpty()) {
-                Log.d("MainActivity", "Athlete data received: ${athletes.size} athletes.")
-            } else {
-                Log.d("MainActivity", "No athlete data received.")
-            }
-        }
-
-        // Observe ScheduleViewModel
-        scheduleViewModel.scheduleData.observe(this) { scheduleResponse ->
-            scheduleResponse?.let {
-                Log.d("MainActivity", "Schedule data received: $scheduleResponse")
-            } ?: run {
-                Log.d("MainActivity", "No schedule data received.")
-            }
-        }
-
-        // Observe error messages
-        scheduleViewModel.errorMessage.observe(this) { error ->
-            error?.let {
-                Log.e("MainActivity", "Error fetching schedule: $it")
-            }
-        }
     }
 
     private fun fetchData() {
         // Start the data fetch and upload process for each ViewModel
         teamViewModel.fetchAndUploadData()
-        athleteViewModel.fetchAndUploadData()
-        scheduleViewModel.fetchAndUploadData()
     }
 }
 

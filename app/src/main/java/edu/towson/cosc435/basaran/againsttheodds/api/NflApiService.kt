@@ -1,6 +1,7 @@
-package edu.towson.cosc435.basaran.againsttheodds
+package edu.towson.cosc435.basaran.againsttheodds.api
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -43,6 +44,9 @@ data class TeamStat(
 
 // Define the API interface
 interface NflApiService {
+    @POST("start-service")
+    suspend fun startBackendService(): Response<Map<String, String>>
+
     @GET("/teams")
     fun getTeams(): Call<List<Team>>
 
@@ -57,4 +61,7 @@ interface NflApiService {
 
     @POST("/clear-data")
     fun clearData(): Call<Map<String, String>>
+
+    @POST("/simulate-next-year")
+    fun simulateNextYear(): Call<Map<String, String>>
 }
