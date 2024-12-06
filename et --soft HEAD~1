@@ -1,0 +1,19 @@
+[33m4608a4a[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;33mtag: open_ai_api_implementation[m[33m)[m Updated open ai api. Hid apikey
+[33ma465969[m Hid open aikey
+[33mff71931[m Merge branch 'main' of https://github.com/Benismu6/Against-the-Odds
+[33m5675aaa[m Changed firebase to render database
+[33m9c33717[m Update .gitignore
+[33m4d1080b[m[33m ([m[1;33mtag: open_ai_implementation[m[33m)[m Implemented open ai dialouge and deleted more files we don't need
+[33m736b566[m[33m ([m[1;33mtag: betting_odds_calculator_implemented[m[33m)[m Implementated betting odds calculator. Deleted some files we don't need
+[33m7a0acd0[m[33m ([m[1;33mtag: populated_stats_screen[m[33m)[m Added simulated data to statistics page
+[33mec3c59b[m Update README.md
+[33m52e53cb[m Add files via upload
+[33m8fee2f6[m Added main dashboard UI code
+[33m041d9fa[m Dashboard UI
+[33m8c785e2[m[33m ([m[1;33mtag: feature/screens-and-navigation[m[33m)[m Added all screens and navigation.
+[33m63c54e8[m Added athletes and schedule to database. Tested databases. Teams and athletes are parsing correctly, but schedule is not.
+[33m8b0b80e[m[33m ([m[1;33mtag: feature/firebase-integration[m[33m)[m Implemented MainActivity with Firebase integration and team data fetching
+[33mebcf95e[m[33m ([m[1;33mtag: sprint2-documentation-update[m[33m)[m Organized project structure and added documentation headers
+[33mcf5ac98[m Merge pull request #1 from Benismu6/sprint1
+[33m393d7d0[m[33m ([m[1;32msprint1[m[33m)[m Added project title, project member names and brief project description in README file
+[33mc5af100[m Initial commit

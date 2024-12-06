@@ -1,3 +1,7 @@
+import java.util.Properties
+import java.io.File
+import java.io.FileInputStream
+
 // build.gradle.kts
 
 // The plugins block specifies the plugins applied to the project.
@@ -20,7 +24,7 @@ android {
     defaultConfig {
         // Application ID, uniquely identifies the application on the device.
         applicationId = "edu.towson.cosc435.basaran.againsttheodds"
-        minSdk = 24                                     // Minimum SDK version the app can run on
+        minSdk = 26                                     // Minimum SDK version the app can run on
         targetSdk = 34                                  // Target SDK version for the app
         versionCode = 1                                  // Version code for the application
         versionName = "1.0"                             // Version name for display purposes
@@ -32,6 +36,15 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        val localPropertiesFile = File(rootProject.projectDir, "local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(FileInputStream(localPropertiesFile))
+        }
+
+        val apiKey = properties.getProperty("API_KEY") ?: ""
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     // Configures the build types for the application.
@@ -59,6 +72,7 @@ android {
     // Enables Jetpack Compose features for the project.
     buildFeatures {
         compose = true                                     // Enables Compose support
+        buildConfig = true
     }
 
     // Configures options for Jetpack Compose compilation.
@@ -106,7 +120,11 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0")
     implementation(libs.androidx.runtime.livedata)
+    implementation("com.aallam.openai:openai-client:3.7.2")
 
     // Testing libraries
     testImplementation(libs.junit)                              // JUnit for unit testing

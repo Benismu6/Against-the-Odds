@@ -43,11 +43,28 @@ class MainActivity : ComponentActivity() {
         teamViewModel.teamList.observe(this) { teams ->
             if (teams.isNotEmpty()) {
                 Log.d("MainActivity", "Team data received: ${teams.size} teams.")
+
+                // Loop through each team in the list and log the individual properties
+                teams.forEach { team ->
+                    Log.d("MainActivity", "Team ID: ${team.idTeam}")
+                    Log.d("MainActivity", "Team Name: ${team.strTeam}")
+                    Log.d("MainActivity", "Team Short Name: ${team.strTeamShort}")
+                    Log.d("MainActivity", "Team Badge URL: ${team.strTeamBadge}")
+                    Log.d("MainActivity", "Stadium: ${team.strStadium}")
+                    Log.d("MainActivity", "Stadium Location: ${team.strStadiumLocation}")
+                    Log.d("MainActivity", "Stadium Capacity: ${team.intStadiumCapacity}")
+                    Log.d("MainActivity", "Website: ${team.strWebsite}")
+                    Log.d("MainActivity", "League: ${team.strLeague}")
+                    Log.d("MainActivity", "Description: ${team.strDescriptionEN}")
+                    Log.d("MainActivity", "Year Formed: ${team.intFormedYear}")
+                    Log.d("MainActivity", "Country: ${team.strCountry}")
+                }
             } else {
                 Log.d("MainActivity", "No team data received.")
             }
         }
     }
+
 
     private fun fetchData() {
         // Start the data fetch and upload process for each ViewModel

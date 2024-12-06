@@ -21,12 +21,12 @@ data class Game(
     val winner: String
 )
 
-data class CurrentYearGamesResponse(
+data class CurrentYearGames(
     val year: Int,
     val games: List<Game>
 )
 
-data class AllYearsGamesResponse(
+data class AllYearsGames(
     val all_years_data: Map<String, List<Game>>
 )
 
@@ -51,10 +51,10 @@ interface NflApiService {
     fun getTeams(): Call<List<Team>>
 
     @GET("/games/current-year")
-    fun getCurrentYearGames(): Call<CurrentYearGamesResponse>
+    fun getCurrentYearGames(): Call<CurrentYearGames>
 
     @GET("/games/all")
-    fun getAllYearsGames(): Call<AllYearsGamesResponse>
+    fun getAllYearsGames(): Call<AllYearsGames>
 
     @GET("/games/{year}")
     fun getGamesByYear(@Path("year") year: Int): Call<YearGamesResponse>

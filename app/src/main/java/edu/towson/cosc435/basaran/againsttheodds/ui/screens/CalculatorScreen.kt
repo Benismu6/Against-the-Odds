@@ -1,7 +1,9 @@
-// BettingOddsCalculatorScreen.kt
+// CalculatorScreen.kt
 package edu.towson.cosc435.basaran.againsttheodds.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,11 +28,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import edu.towson.cosc435.basaran.againsttheodds.ui.calculator.BettingOddsViewModel
+import edu.towson.cosc435.basaran.againsttheodds.models.BettingOddsViewModel
 import edu.towson.cosc435.basaran.againsttheodds.ui.components.NavigationBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +52,7 @@ fun BettingOddsCalculatorScreen(
 
     // Observing ViewModel states
     val confidenceLevel by viewModel.confidence.observeAsState(null)
+    val explanation by viewModel.explanation.observeAsState("")
     val isLoading by viewModel.isLoading.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState(null)
 
@@ -192,8 +195,17 @@ fun BettingOddsCalculatorScreen(
 
             // Progress Indicator
             if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(16.dp) // Optional padding
+                    )
+                }
             }
+
 
             // Confidence Level or Error Message
             confidenceLevel?.let {
@@ -202,9 +214,21 @@ fun BettingOddsCalculatorScreen(
                     modifier = Modifier.padding(top = 16.dp)
                 )
             }
+
             errorMessage?.let {
                 Text(text = it, color = androidx.compose.material3.MaterialTheme.colorScheme.error)
             }
+
+            if (explanation.isNotBlank()) {
+                Text(
+                    text = "Advice: $explanation",
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+            }
+
+            Log.d("BettingOddsViewModel", "Explanation: $explanation")
+            Log.d("BettingOddsViewModel", "Error Message: $errorMessage")
+
         }
     }
 }

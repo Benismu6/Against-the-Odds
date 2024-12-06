@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
@@ -93,6 +95,11 @@ fun StatisticsScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = { Text("NFL Statistics") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
                 actions = {
                     if (isSearchBarVisible) {
                         TextField(
@@ -309,18 +316,18 @@ fun StatisticsScreen(navController: NavController) {
                 }
             }
 
-            // Temporary Button
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(onClick = {
-                    viewModel.clearData() // Call a ViewModel function
-                }) {
-                    Text("Clear Data")
-                }
-            }
+//            // Temporary Button
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                horizontalArrangement = Arrangement.Center
+//            ) {
+//                Button(onClick = {
+//                    viewModel.clearData() // Call a ViewModel function
+//                }) {
+//                    Text("Clear Data")
+//                }
+//            }
         }
     }
 }

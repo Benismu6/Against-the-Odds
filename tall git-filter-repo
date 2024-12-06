@@ -1,0 +1,113 @@
+[33mcommit ffd5520d29cf23d5a11ad49d77676be39357402d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Thu Dec 5 19:16:05 2024 -0500
+
+    Hid open aikey
+
+[33mcommit ac1bcb1220782c8c6f0a64e6b33ca36db3d481b4[m
+Merge: df4eeb5 b8fa8a7
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Thu Dec 5 06:44:20 2024 -0500
+
+    Merge branch 'main' of https://github.com/Benismu6/Against-the-Odds
+
+[33mcommit df4eeb5bb6e1312b757154079ce9d8ef329a2d21[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Thu Dec 5 06:42:44 2024 -0500
+
+    Changed firebase to render database
+
+[33mcommit b8fa8a74c17b752bc15bd81903fe10925891a852[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Zeshan Basaran <116126778+zeshanbasaran@users.noreply.github.com>
+Date:   Thu Dec 5 04:42:18 2024 -0500
+
+    Update .gitignore
+
+[33mcommit b1bdff636c15ee287b76a5159b6349e1df7f4d8c[m[33m ([m[1;33mtag: open_ai_implementation[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Thu Dec 5 04:38:47 2024 -0500
+
+    Implemented open ai dialouge and deleted more files we don't need
+
+[33mcommit 2d983ee4eeb58c1f4201119540ae266ee8f74a27[m[33m ([m[1;33mtag: betting_odds_calculator_implemented[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Wed Dec 4 11:03:41 2024 -0500
+
+    Implementated betting odds calculator. Deleted some files we don't need
+
+[33mcommit 287819b748913d71192d40b059dddd6c4802606e[m[33m ([m[1;33mtag: populated_stats_screen[m[33m, [m[1;31mupstream/main[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Mon Dec 2 12:16:59 2024 -0500
+
+    Added simulated data to statistics page
+
+[33mcommit f90ac2c4ad0e5628f319ab7786cffe2b62b18d5b[m
+Author: 5lliott <pkolbe2@students.towson.edu>
+Date:   Sat Nov 30 12:44:26 2024 -0500
+
+    Update README.md
+
+[33mcommit 652417b27df427604b43964569b16a8fbc0eac26[m
+Author: svuchula <156249397+svuchula@users.noreply.github.com>
+Date:   Tue Nov 5 17:58:43 2024 -0500
+
+    Add files via upload
+
+[33mcommit be59616fa6ee4646d99bff2b294d8431112da7bf[m
+Author: 5lliott <pkolbe2@students.towson.edu>
+Date:   Mon Nov 4 12:36:38 2024 -0500
+
+    Added main dashboard UI code
+
+[33mcommit 2a5f3ec8825a02752405ae5e623c6770980f730b[m
+Author: 5lliott <pkolbe2@students.towson.edu>
+Date:   Mon Nov 4 12:27:58 2024 -0500
+
+    Dashboard UI
+    
+    Background color, icons for calculator, statistics, and settings pages.
+
+[33mcommit 1978a53135500489628fae77e14b01e1960c2536[m[33m ([m[1;33mtag: feature/screens-and-navigation[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Mon Nov 4 11:58:24 2024 -0500
+
+    Added all screens and navigation.
+
+[33mcommit 12054f7467e8e137889c575d77fd59ad87372b86[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Mon Nov 4 11:07:48 2024 -0500
+
+    Added athletes and schedule to database. Tested databases. Teams and athletes are parsing correctly, but schedule is not.
+
+[33mcommit e8be53c7e28cff62d2cc9671961bc6f85031b94b[m[33m ([m[1;33mtag: feature/firebase-integration[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Sat Nov 2 14:55:04 2024 -0400
+
+    Implemented MainActivity with Firebase integration and team data fetching
+
+[33mcommit 8c33ed6b3859a5c8b5e11734acd21e6202dd4fbb[m[33m ([m[1;33mtag: sprint2-documentation-update[m[33m)[m
+Author: zeshanbasaran <zbasara1@students.towson.edu>
+Date:   Thu Oct 24 11:00:38 2024 -0400
+
+    Organized project structure and added documentation headers
+
+[33mcommit fbff4885c7cd5b835878afa0430c5c3099539053[m
+Merge: 15d8160 ff97ff3
+Author: Benis M <113315568+Benismu6@users.noreply.github.com>
+Date:   Sat Oct 5 21:17:59 2024 -0400
+
+    Merge pull request #1 from Benismu6/sprint1
+    
+    Added project title, project member names and brief project descripti…
+
+[33mcommit ff97ff3c21e53eb05512c5640b37d3490aef0f39[m[33m ([m[1;31morigin/sprint1[m[33m)[m
+Author: Benismu6 <113315568+Benismu6@users.noreply.github.com>
+Date:   Sat Oct 5 21:16:28 2024 -0400
+
+    Added project title, project member names and brief project description in README file
+
+[33mcommit 15d81604a0d76a32481bd5b9b69ef2ac49c13ac1[m
+Author: Benis M <113315568+Benismu6@users.noreply.github.com>
+Date:   Sat Oct 5 20:56:37 2024 -0400
+
+    Initial commit
