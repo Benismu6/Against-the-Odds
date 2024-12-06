@@ -52,12 +52,12 @@
 ## Package Installation
 1. Open the build.gradle file for the app module.
 2. Ensure the following dependencies are present:
-- Jetpack Compose 
-- Retrofit 
-- OkHttp 
-- PostgreSQL JDBC Driver 
-- ViewModel KTX 
-- Navigation Compose
+    - Jetpack Compose 
+    - Retrofit 
+    - OkHttp 
+    - PostgreSQL JDBC Driver 
+    - ViewModel KTX 
+    - Navigation Compose
 3. If missing, add them to the dependencies section in build.gradle:
 ```gradle
    dependencies {
@@ -78,24 +78,24 @@
 
 # Features
 1. Statistics Dashboard:
-- View detailed stats for all NFL teams.
+    - View detailed stats for all NFL teams.
 2. Betting Odds Calculator:
-- Calculate confidence levels for over/under bets.
+    - Calculate confidence levels for over/under bets.
 3. Help/FAQ:
-- Access in-app help and FAQs.
+    - Access in-app help and FAQs.
 4. Settings:
-- Customize app preferences such as notifications and default teams.
+    - Customize app preferences such as notifications and default teams.
 
 # Troubleshooting
 ## Common Issues
 1. NetworkOnMainThreadException
-- Ensure all network/database calls are executed on a background thread.
+    - Ensure all network/database calls are executed on a background thread.
 2. Database Connection Issues
-- Verify PostgreSQL server is running and accessible.
-- Check the DB_URL, DB_USER, and DB_PASSWORD in TeamRepository.kt.
+    - Verify PostgreSQL server is running and accessible.
+    - Check the DB_URL, DB_USER, and DB_PASSWORD in TeamRepository.kt.
 3. Gradle Sync Failures
-- Ensure you have a stable internet connection.
-- Clear Gradle cache
+    - Ensure you have a stable internet connection.
+    - Clear Gradle cache
    ```bash
    ./gradlew clean
 ## Our Fail-Proof Method for Emulator Issues:
