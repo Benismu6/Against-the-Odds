@@ -288,6 +288,48 @@ fun StatisticsScreen(navController: NavController) {
                     }
                 }
             }
+
+            // Row for "Continue Simulation" button
+            // Used to demonstrate ability to access live data
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                // Button to trigger the continue simulation process
+                Button(onClick = {
+                    viewModel.continueSimulation(
+                        onSuccess = { message ->
+                            // Handle successful simulation continuation
+                            println("Success: $message")
+                        },
+                        onError = { error ->
+                            // Handle errors during simulation continuation
+                            println("Error: $error")
+                        }
+                    )
+                }) {
+                    // Text displayed on the button
+                    Text("Continue Simulation")
+                }
+            }
+
+            // Developer Button (Commented Out)
+            // This row contains a "Clear Data" button, used for debugging or resetting data.
+            // Row(
+            //     modifier = Modifier
+            //         .fillMaxWidth(),
+            //     horizontalArrangement = Arrangement.Center
+            // ) {
+            //     Button(onClick = {
+            //         viewModel.clearData() // Call a ViewModel function to clear data
+            //     }) {
+            //         // Text displayed on the button
+            //         Text("Clear Data")
+            //     }
+            // }
+
         }
     }
 }
