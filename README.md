@@ -106,6 +106,6 @@
 5. Reload Gradle project.
 6. Run app.
 ## API Issues
-If having issues generating statics data, check [Render.com/games/all](https://nfl-api.onrender.com/games/all).
+If having issues generating statistics data, check [Render.com/games/all](https://nfl-api.onrender.com/games/all).
 If there is no data, or connection issues persist, contact zbasara1@students.towson.edu so that the
 Render.com web service may be restarted.
