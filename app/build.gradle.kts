@@ -125,6 +125,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0")
     implementation(libs.androidx.runtime.livedata)
     implementation("com.aallam.openai:openai-client:3.7.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
 
     // Testing libraries
     testImplementation(libs.junit)                              // JUnit for unit testing

@@ -1,4 +1,3 @@
-// CalculatorScreen.kt
 package edu.towson.cosc435.basaran.againsttheodds.ui.screens
 
 import android.util.Log
@@ -13,11 +12,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,16 +35,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import edu.towson.cosc435.basaran.againsttheodds.models.BettingOddsViewModel
 import edu.towson.cosc435.basaran.againsttheodds.ui.components.NavigationBar
+import edu.towson.cosc435.basaran.againsttheodds.viewmodels.BettingOddsViewModel
 
+/**
+ * Betting Odds Calculator Screen.
+ *
+ * This screen allows users to:
+ * - Select two teams.
+ * - Specify the year of the match.
+ * - Choose "Over" or "Under" with corresponding amounts.
+ * - Calculate confidence levels and get betting advice.
+ *
+ * @param navController The [NavController] for navigating back to previous screens.
+ * @param viewModel The [BettingOddsViewModel] responsible for managing betting-related logic.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BettingOddsCalculatorScreen(
     navController: NavController,
     viewModel: BettingOddsViewModel = viewModel()
 ) {
-    // UI states
+    // UI states for user input
     var selectedTeam1 by remember { mutableStateOf("") }
     var selectedTeam2 by remember { mutableStateOf("") }
     var year by remember { mutableStateOf("") }
@@ -50,13 +64,15 @@ fun BettingOddsCalculatorScreen(
     var isUnderSelected by remember { mutableStateOf(false) }
     var amount by remember { mutableStateOf("") }
 
-    // Observing ViewModel states
+    // Observing states from ViewModel
     val confidenceLevel by viewModel.confidence.observeAsState(null)
     val explanation by viewModel.explanation.observeAsState("")
     val isLoading by viewModel.isLoading.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState(null)
 
+    // Main layout
     Scaffold(
+        // Top bar with navigation
         topBar = {
             TopAppBar(
                 title = { Text("Betting Odds Calculator") },
@@ -67,6 +83,7 @@ fun BettingOddsCalculatorScreen(
                 }
             )
         },
+        // Bottom navigation bar
         bottomBar = { NavigationBar(navController) }
     ) { innerPadding ->
         Column(
@@ -174,7 +191,7 @@ fun BettingOddsCalculatorScreen(
                 )
             }
 
-            // Calculate button
+            // Button: Calculate Confidence
             Button(
                 onClick = {
                     if (year.isNotBlank() && amount.isNotBlank()) {
@@ -187,48 +204,70 @@ fun BettingOddsCalculatorScreen(
                         )
                     }
                 },
-                enabled = !isLoading,
+                enabled = !isLoading, // Disable button when loading
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Calculate Confidence")
             }
 
-            // Progress Indicator
+            // Show loading indicator if calculation is in progress
             if (isLoading) {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(16.dp) // Optional padding
-                    )
+                    CircularProgressIndicator()
                 }
             }
 
+            // Confidence Level and Advice in a Card
+            if (confidenceLevel != null || explanation.isNotBlank()) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        confidenceLevel?.let {
+                            Text(
+                                text = "Confidence Level: ${"%.2f".format(it)}%",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
 
-            // Confidence Level or Error Message
-            confidenceLevel?.let {
-                Text(
-                    text = "Confidence Level: ${"%.2f".format(it)}%",
-                    modifier = Modifier.padding(top = 16.dp)
-                )
+
+
+                        if (explanation.isNotBlank()) {
+                            Text(
+                                text = "Advice: $explanation",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
             }
 
+            // Display Error Message
             errorMessage?.let {
-                Text(text = it, color = androidx.compose.material3.MaterialTheme.colorScheme.error)
-            }
-
-            if (explanation.isNotBlank()) {
                 Text(
-                    text = "Advice: $explanation",
-                    modifier = Modifier.padding(top = 16.dp)
+                    text = it,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
 
+            // Log debugging information
             Log.d("BettingOddsViewModel", "Explanation: $explanation")
             Log.d("BettingOddsViewModel", "Error Message: $errorMessage")
-
         }
     }
 }

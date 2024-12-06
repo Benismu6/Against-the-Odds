@@ -1,4 +1,3 @@
-// StatisticsScreen.kt
 package edu.towson.cosc435.basaran.againsttheodds.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
@@ -50,31 +48,38 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import edu.towson.cosc435.basaran.againsttheodds.ui.components.NavigationBar
-import edu.towson.cosc435.basaran.againsttheodds.models.StatisticsViewModel
+import edu.towson.cosc435.basaran.againsttheodds.viewmodels.StatisticsViewModel
 
+/**
+ * Composable function for displaying NFL statistics.
+ *
+ * This screen allows users to view team statistics, filter by season, sort by wins/losses/team name,
+ * and search for specific teams.
+ *
+ * @param navController The [NavController] used for navigation.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsScreen(navController: NavController) {
+    // ViewModel instance to manage data and logic
     val viewModel: StatisticsViewModel = viewModel()
-    val teamStats by viewModel.teamStats.observeAsState(emptyList()) // Correct LiveData handling
-    val availableSeasons by viewModel.availableSeasons.observeAsState(emptyList()) // Correct LiveData handling
-    val isLoading by viewModel.isLoading.observeAsState(false) // Observe loading state
 
-    // Local states for UI interactivity
+    // Observing LiveData from ViewModel
+    val teamStats by viewModel.teamStats.observeAsState(emptyList())
+    val availableSeasons by viewModel.availableSeasons.observeAsState(emptyList())
+    val isLoading by viewModel.isLoading.observeAsState(false)
+
+    // Local states for UI
     var searchQuery by remember { mutableStateOf("") }
     var sortOrder by remember { mutableStateOf(SortOrder.NONE) }
     var selectedSeason by remember { mutableStateOf("All Seasons") }
     var isDropdownExpanded by remember { mutableStateOf(false) }
-    var isSearchBarVisible by remember { mutableStateOf(false) } // Declare search bar visibility state
+    var isSearchBarVisible by remember { mutableStateOf(false) }
 
-    // Filter and sort the team stats
+    // Apply filters and sorting to team stats
     val filteredAndSortedStats = teamStats
-        .filter {
-            selectedSeason == "All Seasons" || it.season == selectedSeason
-        }
-        .filter {
-            it.team.startsWith(searchQuery, ignoreCase = true) // Use startsWith instead of contains
-        }
+        .filter { selectedSeason == "All Seasons" || it.season == selectedSeason }
+        .filter { it.team.startsWith(searchQuery, ignoreCase = true) }
         .let { stats ->
             when (sortOrder) {
                 SortOrder.BY_WINS -> stats.sortedByDescending { it.wins }
@@ -84,8 +89,7 @@ fun StatisticsScreen(navController: NavController) {
             }
         }
 
-
-    // Trigger data fetch when the screen loads
+    // Fetch initial data when the screen is loaded
     LaunchedEffect(Unit) {
         viewModel.fetchTeamStats()
         viewModel.fetchAvailableSeasons()
@@ -96,11 +100,13 @@ fun StatisticsScreen(navController: NavController) {
             TopAppBar(
                 title = { Text("NFL Statistics") },
                 navigationIcon = {
+                    // Back button to navigate to the previous screen
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
+                    // Search bar toggle
                     if (isSearchBarVisible) {
                         TextField(
                             value = searchQuery,
@@ -134,19 +140,19 @@ fun StatisticsScreen(navController: NavController) {
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Dropdown Menu for Season Filter
+                // Dropdown menu for selecting seasons
                 Button(
                     onClick = { isDropdownExpanded = !isDropdownExpanded },
                     modifier = Modifier
                         .width(170.dp)
-                        .heightIn(min = 48.dp) // Set minimum height to make it consistent
+                        .heightIn(min = 48.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = selectedSeason) // Display selected season
+                        Text(text = selectedSeason)
                         Icon(
                             imageVector = if (isDropdownExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                             contentDescription = if (isDropdownExpanded) "Collapse dropdown" else "Expand dropdown"
@@ -159,20 +165,20 @@ fun StatisticsScreen(navController: NavController) {
                 ) {
                     Box(
                         modifier = Modifier
-                            .heightIn(max = 200.dp) // Limit height explicitly
-                            .width(170.dp) // Ensure full width
-                            .verticalScroll(rememberScrollState()) // Add vertical scrolling
+                            .heightIn(max = 200.dp)
+                            .width(170.dp)
+                            .verticalScroll(rememberScrollState())
                     ) {
                         Column {
                             DropdownMenuItem(
                                 onClick = {
-                                    if (selectedSeason != "All Seasons") { // Avoid redundant recompositions
+                                    if (selectedSeason != "All Seasons") {
                                         selectedSeason = "All Seasons"
-                                        viewModel.fetchTeamStats(null) // Fetch all seasons' data
+                                        viewModel.fetchTeamStats(null)
                                     }
                                     isDropdownExpanded = false
                                 },
-                                text = { Text(text = "All Seasons") }
+                                text = { Text("All Seasons") }
                             )
                             availableSeasons.forEach { season ->
                                 DropdownMenuItem(
@@ -181,55 +187,40 @@ fun StatisticsScreen(navController: NavController) {
                                         isDropdownExpanded = false
                                         viewModel.fetchTeamStats(season)
                                     },
-                                    text = { Text(text = season) }
+                                    text = { Text(season) }
                                 )
                             }
                         }
                     }
                 }
             }
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 30.dp)
-            ) {
-                Text("Sort By:")
-            }
+
+            // Sorting options
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = { sortOrder = SortOrder.BY_TEAM_NAME }) {
-                    Text("Name")
-                }
-                Button(onClick = { sortOrder = SortOrder.BY_WINS }) {
-                    Text("Wins")
-                }
-                Button(onClick = { sortOrder = SortOrder.BY_LOSSES }) {
-                    Text("Losses")
-                }
-                Button(onClick = { sortOrder = SortOrder.NONE }) {
-                    Text("Clear Sort")
-                }
+                Button(onClick = { sortOrder = SortOrder.BY_TEAM_NAME }) { Text("Name") }
+                Button(onClick = { sortOrder = SortOrder.BY_WINS }) { Text("Wins") }
+                Button(onClick = { sortOrder = SortOrder.BY_LOSSES }) { Text("Losses") }
+                Button(onClick = { sortOrder = SortOrder.NONE }) { Text("Clear Sort") }
             }
 
+            // Display team statistics
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
-                    .heightIn(min = 500.dp) // Reserve minimum space for the LazyColumn
+                    .heightIn(min = 500.dp)
             ) {
                 if (isLoading) {
-                    // Display a loading spinner while data is loading
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    // Show a loading spinner when data is being fetched
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        // Table Header
+                    LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                        // Table header
                         item {
                             Row(
                                 modifier = Modifier
@@ -245,12 +236,14 @@ fun StatisticsScreen(navController: NavController) {
                                 Text(
                                     text = "Wins",
                                     modifier = Modifier.weight(1f),
-                                    style = MaterialTheme.typography.bodyMedium
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = TextAlign.Center
                                 )
                                 Text(
                                     text = "Losses",
                                     modifier = Modifier.weight(1f),
-                                    style = MaterialTheme.typography.bodyMedium
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = TextAlign.Center
                                 )
                             }
                             HorizontalDivider(
@@ -258,7 +251,7 @@ fun StatisticsScreen(navController: NavController) {
                                 color = MaterialTheme.colorScheme.primary
                             )
                         }
-                        // Filtered and Sorted Table Rows
+                        // Table rows for team stats
                         items(filteredAndSortedStats) { stat ->
                             Card(
                                 modifier = Modifier
@@ -295,44 +288,13 @@ fun StatisticsScreen(navController: NavController) {
                     }
                 }
             }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(6.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(onClick = {
-                    viewModel.continueSimulation(
-                        onSuccess = { message ->
-                            println("Success: $message")
-                        },
-                        onError = { error ->
-                            println("Error: $error")
-                        }
-                    )
-                }) {
-                    Text("Continue Simulation")
-                }
-            }
-
-//            // Temporary Button
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                horizontalArrangement = Arrangement.Center
-//            ) {
-//                Button(onClick = {
-//                    viewModel.clearData() // Call a ViewModel function
-//                }) {
-//                    Text("Clear Data")
-//                }
-//            }
         }
     }
 }
 
-// Sorting Enum
+/**
+ * Enum class for defining sorting orders.
+ */
 enum class SortOrder {
     BY_WINS,
     BY_LOSSES,

@@ -1,4 +1,3 @@
-// SettingsScreen.kt
 package edu.towson.cosc435.basaran.againsttheodds.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -12,14 +11,32 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import edu.towson.cosc435.basaran.againsttheodds.ui.components.NavigationBar
 
+/**
+ * Composable function for the Settings screen.
+ *
+ * This screen allows users to:
+ * - Enable/disable notifications.
+ * - Enable/disable dark mode.
+ * - Select a default team.
+ * - Navigate to the Help/FAQ section.
+ *
+ * @param navController The [NavController] used for navigation.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
+    // State for toggling notifications
     var notificationsEnabled by remember { mutableStateOf(false) }
+
+    // State for toggling dark mode
     var darkModeEnabled by remember { mutableStateOf(false) }
+
+    // State for selecting the default team
     var defaultTeam by remember { mutableStateOf("") }
 
+    // Main layout
     Scaffold(
+        // Top bar with back navigation
         topBar = {
             TopAppBar(
                 title = { Text("Settings") },
@@ -30,6 +47,7 @@ fun SettingsScreen(navController: NavController) {
                 }
             )
         },
+        // Bottom navigation bar
         bottomBar = { NavigationBar(navController) }
     ) { innerPadding ->
         Column(
@@ -38,7 +56,7 @@ fun SettingsScreen(navController: NavController) {
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
-            // Row 1: Notifications toggle
+            // Notifications toggle
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -48,11 +66,11 @@ fun SettingsScreen(navController: NavController) {
                 Text("Notifications")
                 Switch(
                     checked = notificationsEnabled,
-                    onCheckedChange = { notificationsEnabled = it }
+                    onCheckedChange = { notificationsEnabled = it } // Update state when toggled
                 )
             }
 
-            // Row 2: Dark mode toggle
+            // Dark mode toggle
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -62,11 +80,11 @@ fun SettingsScreen(navController: NavController) {
                 Text("Dark Mode")
                 Switch(
                     checked = darkModeEnabled,
-                    onCheckedChange = { darkModeEnabled = it }
+                    onCheckedChange = { darkModeEnabled = it } // Update state when toggled
                 )
             }
 
-            // Row 3: Default team dropdown
+            // Default team dropdown (currently implemented as a TextField)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -76,31 +94,35 @@ fun SettingsScreen(navController: NavController) {
                 Text("Default Team")
                 TextField(
                     value = defaultTeam,
-                    onValueChange = { defaultTeam = it },
+                    onValueChange = { defaultTeam = it }, // Update state when text changes
                     placeholder = { Text("Select Team") },
                     modifier = Modifier.width(150.dp)
                 )
             }
 
-            // Row 4: Help/FAQ button
+            // Help/FAQ button
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {
                 Button(
-                    onClick = { navController.navigate("help") },
+                    onClick = { navController.navigate("help") }, // Navigate to Help/FAQ screen
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Help/FAQ")
                 }
             }
 
-            // Version information
+            // Spacer to push version information to the bottom
             Spacer(modifier = Modifier.weight(1f))
+
+            // App version information
             Text(
                 text = "Version 1.0.0",
-                modifier = Modifier.align(Alignment.Start)
+                modifier = Modifier.align(Alignment.Start),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
