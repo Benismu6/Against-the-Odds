@@ -38,7 +38,7 @@
 1. Open a terminal or command prompt.
 2. Run the following command to clone the project:
    ```bash
-   git clone https://github.com/<your-repo-link>.git
+   git clone [https://github.com/<your-repo-link>.git](https://github.com/Benismu6/Against-the-Odds.git)
 3. Navigate to the project directory:
    cd against-the-odds
 
